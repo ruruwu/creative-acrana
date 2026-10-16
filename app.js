@@ -307,5 +307,41 @@ DATA.decks.forEach(deck => {
   option.value = deck.id; $("#deckPicker").append(option);
 });
 $("#browseDeck").addEventListener("click", () => openDeck($("#deckPicker").value));
+function backupStatus(message, error = false) {
+  $("#backupStatus").textContent = message;
+  announce(message, error);
+}
+$("#exportBackup").addEventListener("click", () => {
+  let url;
+  try {
+    const blob = new Blob([store.exportBackup()], { type: "application/json;charset=utf-8" });
+    url = URL.createObjectURL(blob);
+    const link = element("a");
+    link.href = url;
+    link.download = `creative-arcana-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(link); link.click(); link.remove();
+    backupStatus("已產生 JSON 備份，請保留下載的檔案。");
+  } catch (error) { backupStatus(error.message, true); }
+  finally { if (url) setTimeout(() => URL.revokeObjectURL(url), 1000); }
+});
+$("#importBackup").addEventListener("click", () => $("#backupFile").click());
+$("#backupFile").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+  $("#importBackup").disabled = true;
+  try {
+    if (file.size > 20 * 1024 * 1024) throw new Error("備份檔超過 20 MB，請選擇較小的備份檔。");
+    const text = await file.text();
+    const incoming = store.previewBackup(text);
+    if (!confirm(`匯入此備份？\n${incoming.prompts.length} 道最愛、${incoming.sets.length} 組牌組、${incoming.decks.length} 份題庫、${incoming.history.length} 筆紀錄。\n將合併資料並略過重複項目；保留目前分類設定，超過一年的抽卡紀錄不匯入。`)) return;
+    const counts = store.importBackup(text);
+    lastRemovedSet = null;
+    refresh();
+    backupStatus(`匯入完成：新增 ${counts.prompts} 道最愛、${counts.sets} 組牌組、${counts.decks} 份題庫、${counts.history} 筆紀錄。`);
+  } catch (error) { backupStatus(error.message, true); }
+  finally { event.target.value = ""; $("#importBackup").disabled = false; }
+});
 refresh();
 if (store.loadError) announce("無法讀取瀏覽器儲存資料，目前暫停儲存以保護既有收藏。請檢查瀏覽器儲存設定。", true);
+
+else if (store.recovered) announce("已修復舊版相容資料，原始資料已備份。");

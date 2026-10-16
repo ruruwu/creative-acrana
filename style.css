@@ -436,14 +436,17 @@ dialog{max-height:90vh;max-height:90dvh;overflow:auto}
 .saved-set-number{font-size:.78rem;color:#957645;letter-spacing:.06em}
 .saved-set-text{font-size:1.05rem;line-height:1.65;overflow-wrap:anywhere}
 .saved-set-open{display:block;margin-top:6px;font-size:.8rem;line-height:1.6;color:#665338;text-decoration:underline;text-underline-offset:4px}
-.special-thanks{margin:0 0 22px;line-height:1.8;color:#b8aa92}
-.special-thanks h2{margin:0 0 10px;font-size:.95rem;font-weight:500;letter-spacing:.12em;color:var(--gold)}
-.special-thanks p{margin:4px 0}
-.special-thanks a{color:#d4bb8b;text-underline-offset:4px}
+.special-thanks{max-width:720px;margin:0 auto 28px;line-height:1.9;color:#b8aa92;text-align:left;font-size:.85rem}
+.special-thanks h2{margin:0 0 20px;font-size:1.15rem;font-weight:500;letter-spacing:.12em;color:var(--gold);text-align:center}
+.special-thanks h3{margin:0 0 14px;font-size:.95rem;font-weight:500;color:var(--ivory)}
+.special-thanks p{margin:0 0 16px}
+.special-thanks strong{color:#dfcfaf}
+.special-thanks a{color:#d4bb8b;text-underline-offset:4px;overflow-wrap:anywhere}
 .special-thanks a:hover{color:var(--ivory)}
 .special-thanks a:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 .set-undo-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:10px 14px;border:1px solid #c9b48d;border-radius:3px;background:#e9ddc6;color:#59472f;font-size:.8rem;line-height:1.7}
 .set-undo-notice button{flex-shrink:0;min-height:40px;padding:6px 10px;border:0;background:transparent;color:#58401c;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.backup-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .deck-picker-label{display:block;font-size:.88rem;color:#59472f;margin-top:22px}
 .deck-picker-row{display:flex;gap:10px;margin-top:10px;align-items:center}
 #deckPicker{flex:1;min-width:0;max-width:100%;padding:10px 8px;border:1px solid #b9a784;background:#f5eedf;color:#44331c;font:inherit;font-size:.82rem}

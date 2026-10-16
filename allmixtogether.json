@@ -1,0 +1,537 @@
+{
+  "history": [
+    {
+      "id": "1792175700099-6lv1ozlg",
+      "date": "2026-10-16T18:35:00.099Z",
+      "mode": "triple",
+      "cards": [
+        {
+          "deckId": "c02",
+          "categoryId": "c02",
+          "source": "情緒",
+          "group": "general",
+          "number": 7,
+          "prompt": "期待"
+        },
+        {
+          "deckId": "c15",
+          "categoryId": "c15",
+          "source": "職業",
+          "group": "general",
+          "number": 55,
+          "prompt": "律師"
+        },
+        {
+          "deckId": "c14",
+          "categoryId": "c14",
+          "source": "植物",
+          "group": "general",
+          "number": 9,
+          "prompt": "滿天星"
+        }
+      ]
+    },
+    {
+      "id": "1792175686020-deqa14nq",
+      "date": "2026-10-16T18:34:46.020Z",
+      "mode": "triple",
+      "cards": [
+        {
+          "deckId": "deck-132",
+          "source": "繪圖三十題",
+          "group": "general",
+          "number": 27,
+          "prompt": "異族化（吸血鬼化/獸化/惡魔化等）"
+        },
+        {
+          "deckId": "deck-137",
+          "source": "亂入三十題",
+          "group": "general",
+          "number": 9,
+          "prompt": "在膝上入眠"
+        },
+        {
+          "deckId": "deck-163",
+          "source": "大學三十題",
+          "group": "general",
+          "number": 24,
+          "prompt": "跨年"
+        }
+      ]
+    }
+  ],
+  "prompts": [
+    {
+      "deckId": "c14",
+      "categoryId": "c14",
+      "source": "植物",
+      "group": "general",
+      "number": 9,
+      "prompt": "滿天星"
+    },
+    {
+      "deckId": "deck-163",
+      "source": "大學三十題",
+      "group": "general",
+      "number": 24,
+      "prompt": "跨年"
+    }
+  ],
+  "sets": [
+    {
+      "id": "1792175700099-6lv1ozlg",
+      "date": "2026-10-16T18:35:00.099Z",
+      "mode": "triple",
+      "cards": [
+        {
+          "deckId": "c02",
+          "categoryId": "c02",
+          "source": "情緒",
+          "group": "general",
+          "number": 7,
+          "prompt": "期待"
+        },
+        {
+          "deckId": "c15",
+          "categoryId": "c15",
+          "source": "職業",
+          "group": "general",
+          "number": 55,
+          "prompt": "律師"
+        },
+        {
+          "deckId": "c14",
+          "categoryId": "c14",
+          "source": "植物",
+          "group": "general",
+          "number": 9,
+          "prompt": "滿天星"
+        }
+      ]
+    },
+    {
+      "id": "1792175686020-deqa14nq",
+      "date": "2026-10-16T18:34:46.020Z",
+      "mode": "triple",
+      "cards": [
+        {
+          "deckId": "deck-132",
+          "source": "繪圖三十題",
+          "group": "general",
+          "number": 27,
+          "prompt": "異族化（吸血鬼化/獸化/惡魔化等）"
+        },
+        {
+          "deckId": "deck-137",
+          "source": "亂入三十題",
+          "group": "general",
+          "number": 9,
+          "prompt": "在膝上入眠"
+        },
+        {
+          "deckId": "deck-163",
+          "source": "大學三十題",
+          "group": "general",
+          "number": 24,
+          "prompt": "跨年"
+        }
+      ]
+    }
+  ],
+  "decks": [
+    {
+      "id": "c15",
+      "categoryId": "c15",
+      "title": "職業",
+      "group": "general",
+      "items": [
+        {
+          "number": 1,
+          "prompt": "教師"
+        },
+        {
+          "number": 2,
+          "prompt": "醫師"
+        },
+        {
+          "number": 3,
+          "prompt": "護理師"
+        },
+        {
+          "number": 4,
+          "prompt": "藥師"
+        },
+        {
+          "number": 5,
+          "prompt": "牙醫"
+        },
+        {
+          "number": 6,
+          "prompt": "獸醫"
+        },
+        {
+          "number": 7,
+          "prompt": "心理師"
+        },
+        {
+          "number": 8,
+          "prompt": "消防員"
+        },
+        {
+          "number": 9,
+          "prompt": "警察"
+        },
+        {
+          "number": 10,
+          "prompt": "郵差"
+        },
+        {
+          "number": 11,
+          "prompt": "司機"
+        },
+        {
+          "number": 12,
+          "prompt": "列車長"
+        },
+        {
+          "number": 13,
+          "prompt": "機師"
+        },
+        {
+          "number": 14,
+          "prompt": "空服員"
+        },
+        {
+          "number": 15,
+          "prompt": "船長"
+        },
+        {
+          "number": 16,
+          "prompt": "水手"
+        },
+        {
+          "number": 17,
+          "prompt": "廚師"
+        },
+        {
+          "number": 18,
+          "prompt": "烘焙師"
+        },
+        {
+          "number": 19,
+          "prompt": "咖啡師"
+        },
+        {
+          "number": 20,
+          "prompt": "服務生"
+        },
+        {
+          "number": 21,
+          "prompt": "調酒師"
+        },
+        {
+          "number": 22,
+          "prompt": "店員"
+        },
+        {
+          "number": 23,
+          "prompt": "花藝師"
+        },
+        {
+          "number": 24,
+          "prompt": "園藝師"
+        },
+        {
+          "number": 25,
+          "prompt": "農夫"
+        },
+        {
+          "number": 26,
+          "prompt": "漁夫"
+        },
+        {
+          "number": 27,
+          "prompt": "木匠"
+        },
+        {
+          "number": 28,
+          "prompt": "鐵匠"
+        },
+        {
+          "number": 29,
+          "prompt": "水電工"
+        },
+        {
+          "number": 30,
+          "prompt": "建築師"
+        },
+        {
+          "number": 31,
+          "prompt": "室內設計師"
+        },
+        {
+          "number": 32,
+          "prompt": "服裝設計師"
+        },
+        {
+          "number": 33,
+          "prompt": "平面設計師"
+        },
+        {
+          "number": 34,
+          "prompt": "插畫家"
+        },
+        {
+          "number": 35,
+          "prompt": "攝影師"
+        },
+        {
+          "number": 36,
+          "prompt": "作家"
+        },
+        {
+          "number": 37,
+          "prompt": "編輯"
+        },
+        {
+          "number": 38,
+          "prompt": "翻譯員"
+        },
+        {
+          "number": 39,
+          "prompt": "記者"
+        },
+        {
+          "number": 40,
+          "prompt": "主持人"
+        },
+        {
+          "number": 41,
+          "prompt": "演員"
+        },
+        {
+          "number": 42,
+          "prompt": "歌手"
+        },
+        {
+          "number": 43,
+          "prompt": "舞者"
+        },
+        {
+          "number": 44,
+          "prompt": "音樂家"
+        },
+        {
+          "number": 45,
+          "prompt": "指揮家"
+        },
+        {
+          "number": 46,
+          "prompt": "工程師"
+        },
+        {
+          "number": 47,
+          "prompt": "測試工程師"
+        },
+        {
+          "number": 48,
+          "prompt": "資料分析師"
+        },
+        {
+          "number": 49,
+          "prompt": "研究員"
+        },
+        {
+          "number": 50,
+          "prompt": "科學家"
+        },
+        {
+          "number": 51,
+          "prompt": "天文學家"
+        },
+        {
+          "number": 52,
+          "prompt": "地質學家"
+        },
+        {
+          "number": 53,
+          "prompt": "考古學家"
+        },
+        {
+          "number": 54,
+          "prompt": "圖書館員"
+        },
+        {
+          "number": 55,
+          "prompt": "律師"
+        },
+        {
+          "number": 56,
+          "prompt": "法官"
+        },
+        {
+          "number": 57,
+          "prompt": "會計師"
+        },
+        {
+          "number": 58,
+          "prompt": "銀行員"
+        },
+        {
+          "number": 59,
+          "prompt": "導覽員"
+        },
+        {
+          "number": 60,
+          "prompt": "裁縫師"
+        }
+      ]
+    },
+    {
+      "id": "deck-163",
+      "title": "大學三十題",
+      "group": "general",
+      "items": [
+        {
+          "number": 1,
+          "prompt": "直屬"
+        },
+        {
+          "number": 2,
+          "prompt": "第一次搬進宿舍成為室友"
+        },
+        {
+          "number": 3,
+          "prompt": "選課"
+        },
+        {
+          "number": 4,
+          "prompt": "星期一的那堂早八必修課"
+        },
+        {
+          "number": 5,
+          "prompt": "校園服務"
+        },
+        {
+          "number": 6,
+          "prompt": "在大學裡迷路"
+        },
+        {
+          "number": 7,
+          "prompt": "換教室時相遇"
+        },
+        {
+          "number": 8,
+          "prompt": "沒有課的平日"
+        },
+        {
+          "number": 9,
+          "prompt": "社團"
+        },
+        {
+          "number": 10,
+          "prompt": "想晚餐吃什麼"
+        },
+        {
+          "number": 11,
+          "prompt": "告白"
+        },
+        {
+          "number": 12,
+          "prompt": "一方暈船"
+        },
+        {
+          "number": 13,
+          "prompt": "耶誕晚會"
+        },
+        {
+          "number": 14,
+          "prompt": "徹夜聊天"
+        },
+        {
+          "number": 15,
+          "prompt": "夜衝"
+        },
+        {
+          "number": 16,
+          "prompt": "一起逛街或出遊"
+        },
+        {
+          "number": 17,
+          "prompt": "同一堂通識課"
+        },
+        {
+          "number": 18,
+          "prompt": "考試前做瘋狂的事"
+        },
+        {
+          "number": 19,
+          "prompt": "讀書會"
+        },
+        {
+          "number": 20,
+          "prompt": "熬夜苦讀趕報告"
+        },
+        {
+          "number": 21,
+          "prompt": "陪對方修課"
+        },
+        {
+          "number": 22,
+          "prompt": "一方加實驗室、做專題或打工"
+        },
+        {
+          "number": 23,
+          "prompt": "分組報告（同組或不同組）"
+        },
+        {
+          "number": 24,
+          "prompt": "跨年"
+        },
+        {
+          "number": 25,
+          "prompt": "連假"
+        },
+        {
+          "number": 26,
+          "prompt": "當了四年的室友"
+        },
+        {
+          "number": 27,
+          "prompt": "自己辦畢業旅行"
+        },
+        {
+          "number": 28,
+          "prompt": "拍學士照"
+        },
+        {
+          "number": 29,
+          "prompt": "一方延畢"
+        },
+        {
+          "number": 30,
+          "prompt": "研究所或就職"
+        }
+      ]
+    }
+  ],
+  "groups": [
+    "c01",
+    "c02",
+    "c03",
+    "c04",
+    "c05",
+    "c06",
+    "c07",
+    "c08",
+    "c09",
+    "c10",
+    "c11",
+    "c12",
+    "c13",
+    "c14",
+    "c15",
+    "c16",
+    "c17"
+  ]
+}

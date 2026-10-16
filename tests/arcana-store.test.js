@@ -15,6 +15,67 @@ function memory(values = {}) {
 }
 const make = storage => createStore(storage, () => now);
 
+test("raw Skyloom-mixed imports keep CA data and leave the source backup intact", () => {
+  const skyCard = { deckId: "c17", categoryId: "c17", source: "抽象概念", group: "general", number: 58, prompt: "勇氣" };
+  const mixed = { history: [{ ...entry, id: "skyloom-draw", cards: [skyCard] }, entry], prompts: [], sets: [], decks: [deck], groups: Array.from({ length: 17 }, (_, i) => `c${String(i + 1).padStart(2, "0")}`) };
+  const storage = memory(), store = make(storage);
+  assert.deepEqual(store.importBackup(JSON.stringify(mixed)), { history: 1, prompts: 0, sets: 0, decks: 1 });
+  assert.deepEqual(store.snapshot().groups, ["general", "romance"]);
+  assert.deepEqual(make(storage).snapshot().history[0].cards, entry.cards);
+  assert.deepEqual(make(storage).snapshot().decks, [deck]);
+  const restored = make(memory());
+  restored.importBackup(store.exportBackup());
+  assert.deepEqual(restored.snapshot(), store.snapshot());
+  assert.deepEqual(store.importBackup(JSON.stringify(mixed)), { history: 0, prompts: 0, sets: 0, decks: 0 });
+  assert.throws(() => store.importBackup(JSON.stringify({ ...mixed, groups: ["unknown"] })));
+  assert.throws(() => store.importBackup(JSON.stringify({ ...mixed, history: [{ ...entry, cards: [{}] }] })));
+  assert.throws(() => store.importBackup(JSON.stringify({ format: "other", version: 1, library: mixed })));
+});
+
+test("backup round trip merges all collections, preserves settings, and is idempotent", () => {
+  const source = make(memory());
+  source.record(entry); source.togglePrompt(card); source.toggleSet(entry); source.toggleDeck(deck);
+  source.setGroups(["adult"]);
+  const storage = memory(), target = make(storage);
+  target.togglePrompt(other);
+  const backup = source.exportBackup();
+  assert.deepEqual(JSON.parse(backup).library.groups, ["adult"]);
+  assert.deepEqual(target.importBackup(backup), { history: 1, prompts: 1, sets: 1, decks: 1 });
+  assert.deepEqual(target.importBackup(backup), { history: 0, prompts: 0, sets: 0, decks: 0 });
+  const restored = make(storage).snapshot();
+  assert.deepEqual(restored.groups, ["general", "romance"]);
+  assert.deepEqual(restored.prompts, [other, card]);
+  assert.deepEqual(restored.history, [entry]);
+  assert.deepEqual(restored.sets, [entry]);
+  assert.deepEqual(restored.decks, [deck]);
+});
+test("invalid backups and failed writes cannot alter existing data", () => {
+  const storage = memory(), store = make(storage);
+  store.togglePrompt(card);
+  const before = storage.getItem(KEY), backup = JSON.parse(store.exportBackup());
+  const invalid = ["broken", "null", "{}", JSON.stringify({ ...backup, version: 99 }), JSON.stringify({ ...backup, library: { ...backup.library, decks: [{}] } })];
+  for (const text of invalid) {
+    assert.throws(() => store.importBackup(text));
+    assert.equal(storage.getItem(KEY), before);
+  }
+  const source = make(memory()); source.togglePrompt(other);
+  storage.setItem = () => { throw new Error("QuotaExceeded"); };
+  assert.throws(() => store.importBackup(source.exportBackup()), /儲存失敗/);
+  assert.deepEqual(store.snapshot().prompts, [card]);
+});
+test("import skips expired history while retaining old saved sets and accepts a BOM", () => {
+  const source = make(memory()); source.record(entry); source.toggleSet(entry);
+  const backup = JSON.parse(source.exportBackup());
+  backup.library.history[0].date = new Date(now - YEAR - 1).toISOString();
+  backup.library.sets[0].date = backup.library.history[0].date;
+  const target = make(memory());
+  assert.deepEqual(target.importBackup("\uFEFF" + JSON.stringify(backup)), { history: 0, prompts: 0, sets: 1, decks: 0 });
+  assert.equal(target.snapshot().sets.length, 1);
+  const broken = make(memory({ [KEY]: "broken" }));
+  assert.throws(() => broken.exportBackup(), /無法讀取/);
+  assert.throws(() => broken.importBackup(source.exportBackup()), /避免覆寫/);
+});
+
 test("legacy saved sets survive the one-year limit and migration does not modify old data", () => {
   const recent = { ...entry, favorite: true };
   const expired = { ...entry, id: "old-saved", date: new Date(now - YEAR - 1).toISOString(), favorite: true };
@@ -159,4 +220,62 @@ test("the real dataset is compatible with storage, deck previews, and unique dra
   assert.equal(new Set(drawn.map(cardKey)).size, 3);
   drawn.forEach(item => store.togglePrompt(item));
   assert.equal(make(storage).snapshot().prompts.length, 3);
+});
+
+for (const filename of ["onlygroupmix.json", "allmixtogether.json"]) {
+  test(filename + ": recovery preserves CA collections and original data, and runs once", () => {
+    const raw = fs.readFileSync(require.resolve("../" + filename), "utf8");
+    const storage = memory({ [KEY]: raw, "skyloom.library.v1": "untouched" });
+    const store = make(storage);
+    assert.equal(store.loadError, false);
+    assert.equal(store.recovered, true);
+    const state = store.snapshot();
+    for (const name of ["history", "prompts", "sets", "decks"]) assert.equal(state[name].length, 1);
+    const input = JSON.parse(raw);
+    assert.deepEqual(state.history, input.history.filter(entry => entry.cards.every(card => card.deckId.startsWith("deck-"))));
+    assert.deepEqual(state.prompts, input.prompts.filter(card => card.deckId.startsWith("deck-")));
+    assert.deepEqual(state.sets, input.sets.filter(entry => entry.cards.every(card => card.deckId.startsWith("deck-"))));
+    assert.deepEqual(state.decks, input.decks.filter(deck => deck.id.startsWith("deck-")));
+    assert.deepEqual(state.groups, ["general", "romance"]);
+    const backupKey = "creativeArcana.recovery.original.v1";
+    assert.equal(storage.getItem(backupKey), raw);
+    assert.equal(storage.getItem("skyloom.library.v1"), "untouched");
+    const repaired = storage.getItem(KEY);
+    assert.equal(make(storage).recovered, false);
+    assert.equal(storage.getItem(KEY), repaired);
+    assert.equal(storage.getItem(backupKey), raw);
+    store.togglePrompt(other);
+    assert.equal(make(storage).loadError, false);
+  });
+}
+test("recovery refuses unknown sources, mixed draws, and malformed data without writing", () => {
+  const base = JSON.parse(fs.readFileSync(require.resolve("../allmixtogether.json"), "utf8"));
+  const unknown = structuredClone(base); unknown.prompts[0].deckId = "unknown";
+  const combined = structuredClone(base); combined.sets[0].cards.push(combined.sets[1].cards[0]);
+  const broken = structuredClone(base); broken.decks[0].items[0].number = "one";
+  for (const value of [unknown, combined, broken]) {
+    const raw = JSON.stringify(value), storage = memory({ [KEY]: raw });
+    let writes = 0; storage.setItem = () => { writes++; };
+    assert.equal(make(storage).loadError, true);
+    assert.equal(writes, 0);
+    assert.equal(storage.getItem(KEY), raw);
+  }
+});
+test("recovery failures preserve the active data and first backup", () => {
+  const raw = fs.readFileSync(require.resolve("../onlygroupmix.json"), "utf8");
+  const backupKey = "creativeArcana.recovery.original.v1";
+  for (const failedKey of [backupKey, KEY]) {
+    const storage = memory({ [KEY]: raw });
+    const write = storage.setItem;
+    storage.setItem = (key, value) => { if (key === failedKey) throw new Error("QuotaExceeded"); write(key, value); };
+    assert.equal(make(storage).loadError, true);
+    assert.equal(storage.getItem(KEY), raw);
+    assert.equal(storage.getItem(backupKey), failedKey === KEY ? raw : null);
+    storage.setItem = write;
+    assert.equal(make(storage).recovered, true);
+  }
+  const storage = memory({ [KEY]: raw, [backupKey]: "first original" });
+  assert.equal(make(storage).loadError, true);
+  assert.equal(storage.getItem(KEY), raw);
+  assert.equal(storage.getItem(backupKey), "first original");
 });
