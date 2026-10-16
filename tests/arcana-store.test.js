@@ -2,7 +2,8 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const { createStore, cardKey, deckCards, poolFor, sample, sampleBalanced, seasonalGroups, KEY, LEGACY_KEY, YEAR } = require("../arcana-store.js");
+const vm = require("node:vm");
+const { createStore, cardKey, deckCards, poolFor, sample, KEY, LEGACY_KEY, YEAR } = require("../arcana-store.js");
 const now = Date.parse("2026-10-03T12:00:00Z");
 const card = { deckId: "deck-001", source: "希臘風三十題", group: "general", number: 1, prompt: "困獸之鬥" };
 const other = { ...card, number: 2, prompt: "回聲" };
@@ -66,19 +67,6 @@ test("three-card draw from a small favorite pool returns available cards without
   assert.equal(pool.length, 2);
   assert.deepEqual(sample([], 3), []);
   assert.equal(sample(pool, 1).length, 1);
-});
-test("balanced draws choose categories first and can require distinct categories", () => {
-  const pool = [
-    { ...card, categoryId: "c01", prompt: "A1" },
-    { ...card, categoryId: "c01", prompt: "A2" },
-    { ...card, categoryId: "c02", prompt: "B1" }
-  ];
-  assert.equal(sampleBalanced(pool, 1, false, () => 0.99)[0].categoryId, "c02");
-  const values = [0, 0, 0, 0];
-  const drawn = sampleBalanced(pool, 3, true, () => values.shift() ?? 0);
-  assert.equal(drawn.length, 2);
-  assert.deepEqual(new Set(drawn.map(item => item.categoryId)), new Set(["c01", "c02"]));
-  assert.equal(new Set(drawn.map(cardKey)).size, 2);
 });
 test("saved-deck draws use complete saved snapshots, exclude other decks, and survive reload", () => {
   const storage = memory(), store = make(storage);
@@ -144,24 +132,6 @@ test("malformed existing data is not silently overwritten", () => {
     assert.equal(storage.getItem(KEY), raw);
   }
 });
-test("old deck group settings migrate to all word-bank categories", () => {
-  const previous = { history: [], prompts: [], sets: [], decks: [], groups: ["general", "romance"] };
-  const store = createStore(memory({ [KEY]: JSON.stringify(previous) }), () => now, ["c01", "c02"]);
-  assert.deepEqual(store.snapshot().groups, ["c01", "c02"]);
-});
-test("seasonal categories default on for their three calendar months only", () => {
-  const categories = [
-    { id: "c01", name: "物品" },
-    { id: "c18", name: "春日風物詩" },
-    { id: "c19", name: "夏日風物詩" },
-    { id: "c20", name: "秋日風物詩" },
-    { id: "c21", name: "冬日風物詩" }
-  ];
-  const selected = categories.map(category => category.id);
-  for (const [months, expected] of [[ [3, 4, 5], "c18" ], [ [6, 7, 8], "c19" ], [ [9, 10, 11], "c20" ], [ [12, 1, 2], "c21" ]]) {
-    for (const month of months) assert.deepEqual(seasonalGroups(categories, selected, month), ["c01", expected]);
-  }
-});
 test("blocked storage is reported without crashing initialization", () => {
   const store = make({ getItem() { throw new Error("SecurityError"); } });
   assert.equal(store.loadError, true);
@@ -174,21 +144,17 @@ test("saved snapshots cannot be mutated by their callers", () => {
   store.snapshot().decks[0].items.length = 0;
   assert.deepEqual(store.snapshot().decks, [deck]);
 });
-test("the JSON word bank contains 840 unique words across 21 categories", () => {
-  const bank = JSON.parse(fs.readFileSync(require.resolve("../everyday_prompt_bank_v3_zh_tw.json"), "utf8"));
-  const categories = bank.categories.map(category => ({
-    id: category.id, categoryId: category.id, title: category.name, group: "general",
-    items: category.words.map((prompt, index) => ({ number: index + 1, prompt }))
-  }));
-  const words = categories.flatMap(deck => deck.items.map(item => item.prompt));
-  assert.equal(categories.length, 21);
-  assert.equal(words.length, 840);
-  assert.equal(new Set(words).size, 840);
-  const storage = memory(), store = createStore(storage, () => now, categories.map(category => category.id));
-  for (const source of categories) store.toggleDeck(source);
+test("the real dataset is compatible with storage, deck previews, and unique draws", () => {
+  const context = { window: {} };
+  vm.runInNewContext(fs.readFileSync(require.resolve("../prompts.js"), "utf8"), context);
+  const data = JSON.parse(JSON.stringify(context.window.CREATIVE_ARCANA_DATA));
+  const storage = memory(), store = make(storage);
+  assert.equal(data.decks.length, 173);
+  assert.equal(data.decks.flatMap(deckCards).length, 5325);
+  for (const source of data.decks) store.toggleDeck(source);
   assert.equal(make(storage).loadError, false);
-  const pool = poolFor({ decks: categories }, store.snapshot(), "all");
-  assert.equal(pool.length, 840);
+  const pool = poolFor(data, store.snapshot(), "all");
+  assert.ok(pool.every(item => ["general", "romance"].includes(item.group)));
   const drawn = sample(pool, 3);
   assert.equal(new Set(drawn.map(cardKey)).size, 3);
   drawn.forEach(item => store.togglePrompt(item));

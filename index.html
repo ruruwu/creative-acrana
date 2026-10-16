@@ -3,42 +3,30 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Skyloom — Draw a word. Weave a world." />
-  <title>Skyloom</title>
+  <meta name="description" content="Creative Arcana — Draw a card. Tell it your way." />
+  <title>Creative Arcana</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="table">
     <header class="hero">
-      <p class="kicker">A POCKETFUL OF POSSIBILITIES</p>
-      <h1>Skyloom</h1>
-      <p class="tagline"><strong>Draw a word. Weave a world.</strong><br>抽取一個詞，編織一個世界。</p>
+      <p class="kicker">CREATIVE PROMPT DECK</p>
+      <h1>Creative Arcana</h1>
+      <p class="tagline"><strong>Draw a card. Tell it your way.</strong><br>抽一張牌，用你的方式說完它。</p>
     </header>
 
     <section class="ritual">
       <div class="draw-source" role="group" aria-label="抽題來源">
         <span class="source-label">抽題來源</span>
         <div class="source-switch">
-          <button type="button" data-source="all" aria-pressed="true">全部詞彙</button>
-          <button type="button" data-source="favorites" aria-pressed="false">★ 最愛詞彙</button>
-          <button type="button" data-source="decks" aria-pressed="false">☆ 收藏分類</button>
+          <button type="button" data-source="all" aria-pressed="true">全部題目</button>
+          <button type="button" data-source="favorites" aria-pressed="false">★ 最愛題目</button>
+          <button type="button" data-source="decks" aria-pressed="false">☆ 收藏題庫</button>
         </div>
       </div>
-      <div class="draw-mode" role="group" aria-label="抽牌方式">
-        <span class="source-label">抽牌方式</span>
-        <div class="mode-switch">
-          <button type="button" data-mode="random" aria-pressed="true">完全隨機</button>
-          <button type="button" data-mode="balanced" aria-pressed="false">分類平衡</button>
-        </div>
-      </div>
-      <p class="mode-hint" id="drawModeHint">目前可用詞彙混合抽取，每個詞機率相同。</p>
-      <label class="distinct-option" id="distinctOption" hidden>
-        <input type="checkbox" id="distinctCategories">
-        <span>抽三張時分別來自不同分類</span>
-      </label>
       <p id="poolHint" class="pool-hint"></p>
       <div class="card-zone" id="cardsStage" aria-live="polite">
-        <article class="tarot-card card-back placeholder" aria-label="Skyloom 牌背">
+        <article class="tarot-card card-back placeholder" aria-label="Creative Arcana 牌背">
           <div class="corner corner-tl">✦</div>
           <div class="corner corner-tr">✦</div>
           <div class="corner corner-bl">✦</div>
@@ -46,8 +34,8 @@
           <div class="moon-orbit">
             <span>☾</span><span>✧</span><span>☽</span>
           </div>
-          <div class="sigil">S</div>
-          <div class="back-title">SKYLOOM</div>
+          <div class="sigil">CA</div>
+          <div class="back-title">CREATIVE ARCANA</div>
         </article>
       </div>
 
@@ -65,18 +53,19 @@
       <div class="quiet-actions">
         <button class="text-button" id="settingsButton" type="button">Deck Settings</button>
         <span aria-hidden="true">·</span>
-        <button class="text-button" id="archiveButton" type="button">Word Archive</button>
+        <button class="text-button" id="archiveButton" type="button">Arcana Archive</button>
         <span aria-hidden="true">·</span>
         <button class="text-button" id="collectionsButton" type="button">★ 我的收藏</button>
       </div>
 
       <p id="statusMessage" class="status-message" role="status" aria-live="polite"></p>
+      <p class="helper">For writing, illustration, comics, OC / CP, and any form of creation.</p>
     </section>
 
     <section class="year-stats">
       <span id="drawCount">最近一年抽了 0 張牌</span>
       <span aria-hidden="true">·</span>
-      <span id="favoriteCount">0 個最愛詞彙</span>
+      <span id="favoriteCount">0 道最愛題目</span>
     </section>
 
     <footer>
@@ -90,11 +79,8 @@
         <p>收到後我會協助將相關題目移除。</p>
         <p><strong>題庫來源（感謝 cobra203）</strong><br><a href="https://docs.google.com/document/d/1_XQBeiuY5m6p3MHS0g3NkzchK2gkmLBuVQZuDx5FUDw/edit?usp=sharing" target="_blank" rel="noopener noreferrer">https://docs.google.com/document/d/1TCOr5piOcQIIzs2vbF4wQvzBzx6KgrCj_rAwmdc0sb4/edit?tab=t.uvyx713v2i5n</a></p>
         <p><strong>原始募集噗</strong><br><a href="https://www.plurk.com/p/kdoqwl" target="_blank" rel="noopener noreferrer">https://www.plurk.com/p/kdoqwl</a></p>
-  <h3>關於新版題庫</h3>
-        <p class="bank-note">本頁收錄 21 個分類、840 個繁體中文詞彙。每個詞都可以成為一個新世界的入口。</p>
       </section>
       <p>Your creative collection stays in this browser only.<br>紀錄與收藏保存在目前的瀏覽器中；清除網站資料會一併移除。</p>
-      <p class="image-credit">天空照片由 <a href="https://unsplash.com/@enginakyurt" target="_blank" rel="noopener noreferrer">Engin Akyurt</a> 拍攝，刊載於 <a href="https://unsplash.com/photos/white-clouds-under-blue-sky-during-daytime-gJILnne_HFg" target="_blank" rel="noopener noreferrer">Unsplash</a>，依 <a href="https://unsplash.com/license" target="_blank" rel="noopener noreferrer">Unsplash License</a> 使用。</p>
     </footer>
   </main>
 
@@ -102,17 +88,35 @@
     <div class="sheet-inner">
       <div class="sheet-header">
         <div>
-          <p class="kicker">WORD SETTINGS</p>
-          <h2 id="settingsTitle">Choose categories</h2>
+          <p class="kicker">DECK SETTINGS</p>
+          <h2 id="settingsTitle">Choose your decks</h2>
         </div>
         <button class="close-button" data-close="settingsDialog" aria-label="關閉">×</button>
       </div>
-      <p class="sheet-intro">選擇要加入抽牌池的詞彙分類；設定也會套用到最愛與收藏分類。</p>
-      <div class="deck-options" id="categoryOptions"></div>
-      <label class="deck-picker-label" for="deckPicker">瀏覽詞彙分類</label>
+      <p class="sheet-intro">預設只開啟一般與戀愛類題目。Dark 與 Adult 需自行開啟。</p>
+      <div class="deck-options">
+        <label class="deck-option">
+          <input type="checkbox" value="general" checked>
+          <span><strong>General</strong><small>場景、文藝、日常、設定與一般創作題。</small></span>
+        </label>
+        <label class="deck-option">
+          <input type="checkbox" value="romance" checked>
+          <span><strong>Romance</strong><small>戀愛、關係、親密互動相關題目。</small></span>
+        </label>
+        <label class="deck-option">
+          <input type="checkbox" value="dark">
+          <span><strong>Dark</strong><small>死亡、犯罪、戰爭、末日與其他沉重題材。</small></span>
+        </label>
+        <label class="deck-option">
+          <input type="checkbox" value="adult">
+          <span><strong>Adult</strong><small>成人向與明確性內容。僅在你主動開啟時加入抽題池。</small></span>
+        </label>
+      </div>
+      <p class="sheet-intro">分類設定也適用於從最愛與收藏題庫抽題，並會自動保存。</p>
+      <label class="deck-picker-label" for="deckPicker">瀏覽完整題庫</label>
       <div class="deck-picker-row">
         <select id="deckPicker"></select>
-        <button id="browseDeck" class="paper-button" type="button">瀏覽分類</button>
+        <button id="browseDeck" class="paper-button" type="button">預覽題庫</button>
       </div>
     </div>
   </dialog>
@@ -121,8 +125,8 @@
     <div class="archive-book">
       <div class="book-header">
         <div>
-          <p class="kicker">YOUR SKYLOOM YEAR</p>
-          <h2 id="archiveTitle">Word Archive</h2>
+          <p class="kicker">YOUR CREATIVE YEAR</p>
+          <h2 id="archiveTitle">Arcana Archive</h2>
           <p>最近一年的抽卡紀錄</p>
         </div>
         <button class="close-button" data-close="archiveDialog" aria-label="關閉">×</button>
@@ -140,18 +144,18 @@
   <dialog id="collectionsDialog" class="archive-dialog" aria-labelledby="collectionsTitle">
     <div class="archive-book">
       <div class="book-header">
-        <div><p class="kicker">YOUR SKYLOOM COLLECTION</p><h2 id="collectionsTitle">我的收藏</h2><p>留下靈感，下次再相遇。</p></div>
+        <div><p class="kicker">YOUR CREATIVE COLLECTION</p><h2 id="collectionsTitle">我的收藏</h2><p>留下靈感，下次再相遇。</p></div>
         <button class="close-button" data-close="collectionsDialog" aria-label="關閉我的收藏">×</button>
       </div>
       <div class="collection-tabs" role="group" aria-label="收藏類別">
-        <button type="button" data-collection="prompts" aria-pressed="true">最愛詞彙</button>
+        <button type="button" data-collection="prompts" aria-pressed="true">最愛題目</button>
         <button type="button" data-collection="sets" aria-pressed="false">收藏牌組</button>
-        <button type="button" data-collection="decks" aria-pressed="false">收藏分類</button>
+        <button type="button" data-collection="decks" aria-pressed="false">收藏題庫</button>
       </div>
       <div class="collection-toolbar">
         <p id="collectionCount"></p>
-        <button id="drawFavorite" class="paper-button primary-paper" type="button">★ 從最愛抽一詞</button>
-        <button id="drawSavedDecks" class="paper-button primary-paper" type="button" hidden>☆ 從收藏分類抽一張</button>
+        <button id="drawFavorite" class="paper-button primary-paper" type="button">★ 從最愛抽今天題目</button>
+        <button id="drawSavedDecks" class="paper-button primary-paper" type="button" hidden>☆ 從收藏題庫抽一張</button>
       </div>
       <div id="collectionList" class="archive-list"></div>
       <div id="setUndoNotice" class="set-undo-notice" hidden>
@@ -165,17 +169,18 @@
   <dialog id="deckDialog" class="archive-dialog" aria-labelledby="deckTitle">
     <div class="archive-book">
       <div class="book-header">
-        <div><p class="kicker">EXPLORE A CATEGORY</p><h2 id="deckTitle">分類詞彙</h2><p id="deckMeta"></p></div>
-        <button class="close-button" data-close="deckDialog" aria-label="關閉分類詞彙">×</button>
+        <div><p class="kicker">EXPLORE THE DECK</p><h2 id="deckTitle">題庫預覽</h2><p id="deckMeta"></p></div>
+        <button class="close-button" data-close="deckDialog" aria-label="關閉題庫預覽">×</button>
       </div>
       <div class="deck-save-toolbar">
         <button id="saveDeck" class="paper-button primary-paper" type="button" aria-pressed="false"></button>
-        <p>保存整個分類詞彙清單；單詞星號可另外加入最愛。</p>
+        <p>保存完整題目清單；單題星星可另外加入最愛。</p>
       </div>
       <div id="deckList" class="archive-list deck-list"></div>
     </div>
   </dialog>
 
+  <script src="prompts.js"></script>
   <script src="arcana-store.js"></script>
   <script src="app.js"></script>
 </body>
